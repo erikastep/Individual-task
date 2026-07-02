@@ -112,7 +112,6 @@ public class ConsoleMenu {
         PaymentResult result = paymentProcessor.process(currentOrder, paymentMethod);
         System.out.println(result.getMessage());
 
-        // if the payment worked, remember this order in our history list
         if (result.isSuccessful()) {
             orderHistory.add(currentOrder);
         }

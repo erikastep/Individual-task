@@ -10,7 +10,6 @@ public class FixedAmountDiscount extends Discount {
 
     @Override
     public double apply(double originalAmount) {
-        // take money off, but never let the total go below 0
         return Math.max(0, originalAmount - amount);
     }
 }

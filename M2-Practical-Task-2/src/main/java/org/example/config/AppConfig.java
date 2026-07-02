@@ -15,7 +15,6 @@ public class AppConfig {
     }
 
     public static AppConfig getInstance(){
-        // Only create the object the first time. After that, always return the same one.
         if (instance == null) {
             instance = new AppConfig();
         }

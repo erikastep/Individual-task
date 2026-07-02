@@ -6,7 +6,6 @@ public class NoDiscount extends Discount {
     }
     @Override
     public double apply(double originalAmount) {
-        // "no discount" means give back the same amount unchanged
         return originalAmount;
     }
 }
