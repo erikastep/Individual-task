@@ -2,6 +2,7 @@ package org.example.menu;
 
 import org.example.config.AppConfig;
 import org.example.model.Order;
+import org.example.model.OrderHistory;
 import org.example.model.OrderItem;
 import org.example.model.PaymentResult;
 import org.example.payment.PaymentMethod;
@@ -13,6 +14,7 @@ import java.util.Scanner;
 public class ConsoleMenu {
     private final Scanner scanner = new Scanner(System.in);
     private final PaymentProcessor paymentProcessor = new PaymentProcessor();
+    private final OrderHistory orderHistory = new OrderHistory();
 
     private Order currentOrder;
 
@@ -31,6 +33,7 @@ public class ConsoleMenu {
                 case 2 -> addItem();
                 case 3 -> viewOrder();
                 case 4 -> payOrder();
+                case 5 -> viewCompletedOrders();
                 case 0 -> running = false;
                 default -> System.out.println("Invalid option");
             }
@@ -80,6 +83,8 @@ public class ConsoleMenu {
             System.out.println("- " + item);
         }
 
+        System.out.println("Subtotal: " + currentOrder.calculateSubtotal());
+        System.out.println("Tax: " + currentOrder.calculateTax());
         System.out.println("Total: " + currentOrder.calculateTotal());
     }
 
@@ -106,6 +111,23 @@ public class ConsoleMenu {
 
         PaymentResult result = paymentProcessor.process(currentOrder, paymentMethod);
         System.out.println(result.getMessage());
+
+        // if the payment worked, remember this order in our history list
+        if (result.isSuccessful()) {
+            orderHistory.add(currentOrder);
+        }
+    }
+
+    private void viewCompletedOrders(){
+        if (orderHistory.getCompletedOrders().isEmpty()) {
+            System.out.println("No completed orders yet.");
+            return;
+        }
+
+        System.out.println("Completed orders:");
+        for (Order order : orderHistory.getCompletedOrders()) {
+            System.out.println("- " + order.getCustomerName() + " paid " + order.calculateTotal());
+        }
     }
 
     private PaymentMethod createCreditCardPayment(){
@@ -141,6 +163,7 @@ public class ConsoleMenu {
                 2. Add item to order
                 3. View order
                 4. Pay order
+                5. View completed orders
                 0. Exit
                 """);
     }

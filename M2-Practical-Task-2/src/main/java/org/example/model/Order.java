@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.example.config.AppConfig;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +24,25 @@ public class Order {
         items.add(item);
     }
 
-    public double calculateTotal(){
+    // the price of all items, with the discount taken off (before tax)
+    public double calculateSubtotal(){
         double total = 0;
         for (OrderItem item : items) {
             total += item.calculateTotal();
         }
         // apply the discount at the end (NoDiscount just returns the same total)
         return discount.apply(total);
+    }
+
+    // tax = subtotal * tax rate, where the tax rate comes from the Singleton config
+    public double calculateTax(){
+        double taxRate = AppConfig.getInstance().getTaxRate();
+        return calculateSubtotal() * taxRate;
+    }
+
+    // final amount the customer pays = subtotal + tax
+    public double calculateTotal(){
+        return calculateSubtotal() + calculateTax();
     }
 
     public void markAsPaid(){
