@@ -2,6 +2,8 @@ package com.bootcamp.smarthome.controller;
 
 import com.bootcamp.smarthome.device.Device;
 import com.bootcamp.smarthome.exception.HomeAutomationException; // Task 2
+import org.slf4j.Logger;              // Task 3
+import org.slf4j.LoggerFactory;       // Task 3
 
 /**
  * Central hub that manages all registered smart devices.
@@ -10,6 +12,9 @@ import com.bootcamp.smarthome.exception.HomeAutomationException; // Task 2
  * The controller routes commands to devices by their ID.
  */
 public class HomeController {
+
+    // Task 3: SLF4J logger for this class
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     public static final int MAX_DEVICES = 8;
 
@@ -76,6 +81,9 @@ public class HomeController {
         try {
             String command = CommandParser.extractCommand(fullCommand);
 
+            // Task 3: DEBUG - a command was received
+            logger.debug("Command received for device {}: {}", deviceId, fullCommand);
+
             Device device = findDevice(deviceId);
 
             if (device == null) {
@@ -84,12 +92,18 @@ public class HomeController {
             }
 
             if (!device.isOnline()) {
-                System.out.println("WARNING: Device '" + deviceId + "' is offline — command skipped.");
+                // Task 3: WARN - device offline, command skipped
+                logger.warn("Device '{}' is offline — command skipped.", deviceId);
                 return;
             }
 
             device.executeCommand(command);
+
+            // Task 3: INFO - command executed successfully
+            logger.info("Command executed successfully for device {}", deviceId);
         } catch (HomeAutomationException e) {
+            // Task 3: ERROR - an exception was caught during processing
+            logger.error("Command '{}' failed for device '{}'", fullCommand, deviceId, e);
             // rethrow a new exception with more context, keeping the original as the cause
             throw new HomeAutomationException(
                     "Command '" + fullCommand + "' failed for device '" + deviceId + "'", e);
