@@ -53,7 +53,7 @@ public class HomeController {
      * Returns {@code null} when no matching device is found.
      */
     public Device findDevice(String deviceId) {
-        for (int i = 0; i <= deviceCount; i++) {
+        for (int i = 0; i < deviceCount; i++) {   // Task 4 (bug 2): was <= which ran past the array
             if (devices[i] != null && devices[i].getDeviceId().equals(deviceId)) {
                 return devices[i];
             }
@@ -104,7 +104,7 @@ public class HomeController {
         } catch (HomeAutomationException e) {
             // Task 3: ERROR - an exception was caught during processing
             logger.error("Command '{}' failed for device '{}'", fullCommand, deviceId, e);
-            // rethrow a new exception with more context, keeping the original as the cause
+            // Task 2: rethrow with more context, original kept as cause
             throw new HomeAutomationException(
                     "Command '" + fullCommand + "' failed for device '" + deviceId + "'", e);
         } finally {

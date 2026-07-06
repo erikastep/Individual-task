@@ -1,1 +1,20 @@
 2026-07-06 08:23:25 WARN  c.b.s.controller.HomeController - Device 'LIGHT_03' is offline — command skipped.
+2026-07-06 08:27:21 DEBUG c.b.s.controller.HomeController - Command received for device LIGHT_01: LIGHT_01 TURN_ON
+2026-07-06 08:27:21 INFO  c.b.s.controller.HomeController - Command executed successfully for device LIGHT_01
+2026-07-06 08:27:21 DEBUG c.b.s.controller.HomeController - Command received for device LIGHT_02: LIGHT_02 TURN_ON
+2026-07-06 08:27:21 INFO  c.b.s.controller.HomeController - Command executed successfully for device LIGHT_02
+2026-07-06 08:27:21 DEBUG c.b.s.controller.HomeController - Command received for device THERMO_01: THERMO_01 SET_TEMP 22.5
+2026-07-06 08:27:21 INFO  c.b.s.controller.HomeController - Command executed successfully for device THERMO_01
+2026-07-06 08:27:21 DEBUG c.b.s.controller.HomeController - Command received for device LIGHT_01: LIGHT_01 SET_BRIGHTNESS 80
+2026-07-06 08:27:21 INFO  c.b.s.controller.HomeController - Command executed successfully for device LIGHT_01
+2026-07-06 08:27:21 DEBUG c.b.s.controller.HomeController - Command received for device LIGHT_03: LIGHT_03 TURN_ON
+2026-07-06 08:27:21 WARN  c.b.s.controller.HomeController - Device 'LIGHT_03' is offline — command skipped.
+2026-07-06 08:27:21 DEBUG c.b.s.controller.HomeController - Command received for device LOCK_02: LOCK_02 UNLOCK
+2026-07-06 08:27:21 ERROR c.b.smarthome.device.SmartLock - SECURITY ALERT: Incorrect PIN entered for Back Door Lock.
+2026-07-06 08:27:21 ERROR c.b.s.controller.HomeController - Command 'LOCK_02 UNLOCK' failed for device 'LOCK_02'
+com.bootcamp.smarthome.exception.InvalidCommandException: SECURITY ALERT: Incorrect PIN entered for Back Door Lock.
+	at com.bootcamp.smarthome.device.SmartLock.validatePin(SmartLock.java:40)
+	at com.bootcamp.smarthome.device.SmartLock.executeCommand(SmartLock.java:56)
+	at com.bootcamp.smarthome.controller.HomeController.sendCommand(HomeController.java:100)
+	at com.bootcamp.smarthome.Main.main(Main.java:83)
+2026-07-06 08:27:21 DEBUG c.b.s.controller.HomeController - Command received for device SENSOR_99: SENSOR_99 TURN_ON

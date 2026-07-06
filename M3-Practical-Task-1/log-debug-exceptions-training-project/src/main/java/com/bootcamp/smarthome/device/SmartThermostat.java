@@ -29,8 +29,8 @@ public class SmartThermostat extends Device {
      * Valid range: 10.0–35.0 inclusive.
      */
     public void setTemperature(double temp) throws InvalidValueException {
-        // Task 2: reject values outside 10.0-35.0
-        if (temp < 10.0 && temp > 35.0) {
+        // Task 2 + Task 4 (bug 3): reject values outside 10.0-35.0 (was && which was never true)
+        if (temp < 10.0 || temp > 35.0) {
             throw new InvalidValueException("temperature", temp, "must be between 10.0 and 35.0");
         }
         this.temperature = temp;

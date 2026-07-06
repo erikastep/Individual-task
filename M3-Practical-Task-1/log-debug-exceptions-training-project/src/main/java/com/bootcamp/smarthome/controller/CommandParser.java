@@ -36,6 +36,10 @@ public class CommandParser {
      */
     public static String extractCommand(String fullCommand) {
         String[] parts = fullCommand.split(" ");
+        // Task 4 (bug 4): also include the value part when the command has one
+        if (parts.length > 2) {
+            return parts[1] + " " + parts[2];
+        }
         return parts[1];
     }
 }

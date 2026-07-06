@@ -7,7 +7,6 @@ public class HomeAutomationException extends Exception {
         super(message);
     }
 
-    // needed later so we can wrap the original error as the "cause"
     public HomeAutomationException(String message, Throwable cause) {
         super(message, cause);
     }
