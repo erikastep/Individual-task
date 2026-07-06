@@ -1,0 +1,16 @@
+Shelter Upload Report
+Generated: 2026-07-06
+
+Total imported: 31
+Total skipped: 6
+Skipped row numbers: 8, 9, 10, 34, 35, 36
+
+Unique species: Bird, Cat, Dog, Rabbit
+
+Per-species breakdown:
+- Bird: total 6, vaccinated 2, oldest Charlie (4)
+- Cat: total 8, vaccinated 7, oldest Cleo (5)
+- Dog: total 11, vaccinated 10, oldest Shadow (9)
+- Rabbit: total 6, vaccinated 3, oldest Gizmo (5)
+
+Needs vet input (unknown age): Milo(Dog), Leo(Cat), Pepper(Bird)
