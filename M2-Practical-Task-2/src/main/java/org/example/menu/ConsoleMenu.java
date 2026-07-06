@@ -26,7 +26,7 @@ public class ConsoleMenu {
         while(running){
             printMenu();
 
-            int option = Integer.parseInt(scanner.nextLine());
+            int option = readInt();
 
             switch (option){
                 case 1 -> createOrder();
@@ -60,10 +60,10 @@ public class ConsoleMenu {
         String itemName = scanner.nextLine();
 
         System.out.println("Price:");
-        double price = Double.parseDouble(scanner.nextLine());
+        double price = readDouble();
 
         System.out.println("Quantity:");
-        int quantity = Integer.parseInt(scanner.nextLine());
+        int quantity = readInt();
 
         currentOrder.addItem(new OrderItem(itemName, price, quantity));
         System.out.println("Item added to order");
@@ -100,14 +100,18 @@ public class ConsoleMenu {
                 2. PayPal
                 3. Gift Card
                 """);
-        int option = Integer.parseInt(scanner.nextLine());
+        int option = readInt();
 
-        PaymentMethod paymentMethod = switch(option){
-            case 1 -> createCreditCardPayment();
-            case 2 -> createPaypalPayment();
-            case 3 -> createGiftCardPayment();
-            default -> throw new IllegalArgumentException("Invalid payment method");
-        };
+        PaymentMethod paymentMethod;
+        switch (option){
+            case 1 -> paymentMethod = createCreditCardPayment();
+            case 2 -> paymentMethod = createPaypalPayment();
+            case 3 -> paymentMethod = createGiftCardPayment();
+            default -> {
+                System.out.println("Invalid payment method");
+                return;
+            }
+        }
 
         PaymentResult result = paymentProcessor.process(currentOrder, paymentMethod);
         System.out.println(result.getMessage());
@@ -151,9 +155,29 @@ public class ConsoleMenu {
         String code = scanner.nextLine();
 
         System.out.println("Gift card balance:");
-        double balance = Double.parseDouble(scanner.nextLine());
+        double balance = readDouble();
 
         return PaymentMethodFactory.createGiftCardPayment(code, balance);
+    }
+
+    private int readInt(){
+        while (true) {
+            try {
+                return Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid whole number.");
+            }
+        }
+    }
+
+    private double readDouble(){
+        while (true) {
+            try {
+                return Double.parseDouble(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
+        }
     }
 
     private void printMenu(){
