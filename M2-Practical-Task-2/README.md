@@ -25,3 +25,4 @@ User should be able to:
 - Add a new payment method, for example crypto payment or bank transfer
 - Add tax calculation using AppConfig
 - Save completed orders in memory
+- 
