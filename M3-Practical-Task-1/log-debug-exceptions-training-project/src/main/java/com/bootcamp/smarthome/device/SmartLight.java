@@ -1,5 +1,8 @@
 package com.bootcamp.smarthome.device;
 
+import com.bootcamp.smarthome.exception.HomeAutomationException;   // Task 2
+import com.bootcamp.smarthome.exception.InvalidValueException;     // Task 2
+
 /**
  * A dimmable smart light bulb.
  *
@@ -25,13 +28,17 @@ public class SmartLight extends Device {
      *
      * Valid range: 0–100 inclusive.
      */
-    public void setBrightness(int level) {
+    public void setBrightness(int level) throws InvalidValueException {
+        // Task 2: reject values outside 0-100
+        if (level < 0 || level > 100) {
+            throw new InvalidValueException("brightness", level, "must be between 0 and 100");
+        }
         this.brightness = level;
         System.out.println(getName() + " brightness set to " + level + "%");
     }
 
     @Override
-    public void executeCommand(String command) {
+    public void executeCommand(String command) throws HomeAutomationException {
         if (command.startsWith("SET_BRIGHTNESS")) {
             String[] parts = command.split(" ");
             int level = (parts.length > 1) ? Integer.parseInt(parts[1]) : 50;

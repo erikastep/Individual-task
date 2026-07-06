@@ -1,5 +1,7 @@
 package com.bootcamp.smarthome.device;
 
+import com.bootcamp.smarthome.exception.HomeAutomationException; // Task 2
+
 /**
  * Abstract base class representing a smart home device.
  *
@@ -37,7 +39,8 @@ public abstract class Device {
      *   "SET_TEMP 22.5"
      *   "UNLOCK 1234"
      */
-    public abstract void executeCommand(String command);
+    // Task 2: may now throw checked exceptions from validation
+    public abstract void executeCommand(String command) throws HomeAutomationException;
 
     // -------------------------------------------------------------------------
     // Shared behaviour
