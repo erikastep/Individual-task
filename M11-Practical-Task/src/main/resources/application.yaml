@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: springai-bootcamp-demo
+  datasource:
+    url: jdbc:sqlite:${SQLITE_DB_PATH:chatbot.db}
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.community.dialect.SQLiteDialect
+    open-in-view: false
+  ai:
+    ollama:
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+      chat:
+        options:
+          model: ${OLLAMA_MODEL:llama3.2}
+      embedding:
+        options:
+          model: ${OLLAMA_EMBEDDING_MODEL:nomic-embed-text}
+
+app:
+  chat:
+    system-prompt: ${CHAT_SYSTEM_PROMPT:You are a helpful, concise assistant.}

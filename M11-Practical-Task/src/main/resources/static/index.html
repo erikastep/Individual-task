@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SpringAI Bootcamp</title>
+    <style>
+        :root {
+            --bg: #fff5f9;
+            --panel: #ffe4ef;
+            --panel-2: #ffd0e2;
+            --accent: #ec4899;
+            --text: #3d1f2e;
+            --muted: #b06a86;
+            --user: #ec4899;
+            --assistant: #ffe4ef;
+            --border: #f7b9d3;
+            --danger: #e11d48;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Tabs */
+        .tabbar {
+            display: flex;
+            gap: 6px;
+            padding: 10px 16px;
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+        }
+        .tabbar button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .tabbar button:hover { background: var(--panel-2); }
+        .tabbar button.active { background: var(--accent); color: white; }
+
+        .panels { flex: 1; min-height: 0; }
+        .panel { display: none; height: 100%; }
+        .panel.active { display: flex; }
+        #panel-chat { flex-direction: row; }
+        #panel-movies, #panel-rag {
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+            padding: 32px 20px;
+        }
+
+        /* Chat */
+        aside {
+            width: 280px;
+            background: var(--panel);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border);
+        }
+        aside header {
+            padding: 16px;
+            font-weight: 600;
+            font-size: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+        #new-chat {
+            margin: 12px;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: var(--accent);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        #new-chat:hover { opacity: 0.9; }
+        #chat-list { flex: 1; overflow-y: auto; padding: 0 8px; }
+        .chat-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+        .chat-item:hover { background: var(--panel-2); }
+        .chat-item.active { background: var(--panel-2); }
+        .chat-item .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+        }
+        .chat-item .count { color: var(--muted); font-size: 12px; }
+        .chat-item .del {
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .chat-item .del:hover { color: var(--danger); }
+        main { flex: 1; display: flex; flex-direction: column; }
+        main header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+        }
+        #chatMessages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .msg { max-width: 70%; padding: 12px 16px; border-radius: 12px; line-height: 1.5; white-space: pre-wrap; }
+        .msg.user { align-self: flex-end; background: var(--user); color: white; }
+        .msg.assistant { align-self: flex-start; background: var(--assistant); }
+        .msg .role { font-size: 11px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+        .msg.user .role { color: rgba(255, 255, 255, 0.85); }
+        .empty { color: var(--muted); margin: auto; text-align: center; }
+        form {
+            display: flex;
+            gap: 10px;
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+        }
+        #input {
+            flex: 1;
+            resize: none;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--panel-2);
+            background: white;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+        }
+        #send {
+            padding: 0 20px;
+            border: none;
+            border-radius: 8px;
+            background: var(--accent);
+            color: white;
+            cursor: pointer;
+        }
+        #send:disabled { opacity: 0.5; cursor: default; }
+        #error { color: var(--danger); padding: 0 20px 10px; min-height: 18px; font-size: 13px; }
+
+        /* Feature panels (Movies / Ask Docs) */
+        .feature { width: 100%; max-width: 640px; display: flex; flex-direction: column; gap: 12px; }
+        .feature h2 { margin: 0; font-size: 22px; }
+        .feature .hint { margin: 0; color: var(--muted); font-size: 14px; }
+        .feature input, .feature textarea {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .feature textarea { resize: vertical; min-height: 60px; }
+        .feature .go {
+            align-self: flex-start;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 8px;
+            background: var(--accent);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .feature .go:disabled { opacity: 0.5; cursor: default; }
+        .feature-error { color: var(--danger); font-size: 13px; min-height: 18px; }
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .card-title { font-weight: 700; margin-bottom: 4px; }
+        .sources { margin-top: 8px; font-size: 12px; color: var(--muted); }
+    </style>
+</head>
+<body>
+<nav class="tabbar">
+    <button data-tab="chat" class="active">💬 Chat</button>
+    <button data-tab="movies">🎬 Movies</button>
+    <button data-tab="rag">📚 Ask Docs</button>
+</nav>
+
+<div class="panels">
+    <!-- Chat -->
+    <section id="panel-chat" class="panel active">
+        <aside>
+            <header>💬 Chats</header>
+            <button id="new-chat">+ New chat</button>
+            <div id="chat-list"></div>
+        </aside>
+        <main>
+            <header id="chat-title">Select or start a chat</header>
+            <div id="chatMessages"><div class="empty">No conversation selected.</div></div>
+            <div id="error"></div>
+            <form id="composer">
+                <textarea id="input" rows="2" placeholder="Type a message and press Enter..." disabled></textarea>
+                <button id="send" type="submit" disabled>Send</button>
+            </form>
+        </main>
+    </section>
+
+    <!-- Movies -->
+    <section id="panel-movies" class="panel">
+        <div class="feature">
+            <h2>🎬 Movie recommender</h2>
+            <p class="hint">Describe what you feel like watching. A two-agent workflow suggests and curates picks (~15–40s).</p>
+            <textarea id="movie-request" placeholder="e.g. something like Inception but funnier"></textarea>
+            <input id="movie-liked" placeholder="Movies you liked (comma-separated, optional)"/>
+            <button id="movie-go" class="go">Recommend</button>
+            <div id="movie-error" class="feature-error"></div>
+            <div id="movie-results"></div>
+        </div>
+    </section>
+
+    <!-- RAG -->
+    <section id="panel-rag" class="panel">
+        <div class="feature">
+            <h2>📚 Ask the docs</h2>
+            <p class="hint">Answers come only from the CineNook knowledge base — try "How much is student membership?"</p>
+            <input id="rag-question" placeholder="Ask a question about CineNook..."/>
+            <button id="rag-go" class="go">Ask</button>
+            <div id="rag-error" class="feature-error"></div>
+            <div id="rag-answer"></div>
+        </div>
+    </section>
+</div>
+
+<script src="/app.js?v=tabs"></script>
+</body>
+</html>
