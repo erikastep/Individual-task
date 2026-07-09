@@ -1,0 +1,20 @@
+package lv.bootcamp.shelter.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Animal {
+    private Long id;
+    private String name;
+    private AnimalType type;
+    private String breed;
+    private Integer age;
+    private String description;
+    private AnimalStatus status;
+}
