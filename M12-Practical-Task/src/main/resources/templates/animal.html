@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shelter — Animal</title>
+  <style>
+    body { font-family: sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; }
+    nav { background: #f1f5f9; padding: 0.6rem 1rem; border-radius: 6px; margin-bottom: 1.5rem; }
+    nav a { margin-right: 1rem; text-decoration: none; color: #2563eb; }
+    nav a:hover { text-decoration: underline; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: 0.4rem; }
+    img { border-radius: 4px; margin: 1rem 0; }
+    .status-available { color: green; font-weight: bold; }
+    .status-adopted   { color: #999;  font-weight: bold; }
+    .back-link { display: inline-block; margin-top: 1rem; color: #2563eb; }
+  </style>
+</head>
+<body>
+
+  <div th:replace="~{fragments/nav :: nav}"></div>
+
+  <main>
+    <h1 th:text="${animal.name}">Name</h1>
+
+    <img th:src="${animal.imageUrl}"
+         th:alt="${animal.name}"
+         width="300"
+         height="200"
+         style="object-fit: cover;">
+
+    <p>Type: <span th:text="${animal.type}">TYPE</span></p>
+    <p>Breed: <span th:text="${animal.breed}">Breed</span></p>
+    <p>Age: <span th:text="${animal.age}">0</span></p>
+    <p>Status:
+      <span th:text="${animal.status}"
+            th:classappend="${animal.status.name() == 'ADOPTED'} ? 'status-adopted' : 'status-available'">STATUS</span>
+    </p>
+    <p th:text="${animal.description}">Description</p>
+
+    <a href="/animals" class="back-link">← Back to list</a>
+  </main>
+
+</body>
+</html>

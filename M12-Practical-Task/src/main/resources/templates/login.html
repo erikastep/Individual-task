@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shelter — Log in</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      background: url('/images/login-bg.gif') center / cover no-repeat fixed;
+    }
+    .login-card {
+      background: rgba(252, 228, 236, 0.92);
+      width: 100%;
+      max-width: 420px;
+      margin: 1rem;
+      padding: 2.5rem 2rem;
+      border-radius: 28px;
+      box-shadow: 0 10px 30px rgba(197, 24, 91, 0.15);
+    }
+    .brand {
+      text-align: center;
+      color: #c2185b;
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 0;
+    }
+    .subtitle {
+      text-align: center;
+      color: #d17a9e;
+      margin: 0.4rem 0 2rem;
+    }
+    label {
+      display: block;
+      color: #c2185b;
+      font-weight: 700;
+      margin: 0 0 0.4rem 0.4rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      margin-bottom: 1.2rem;
+      border: none;
+      border-radius: 999px;
+      background: #dd7ba0;
+      color: #fff;
+      font-size: 1rem;
+    }
+    input::placeholder { color: rgba(255, 255, 255, 0.8); }
+    input:focus { outline: 2px solid #c2185b; }
+    .btn {
+      display: block;
+      margin: 0.5rem auto 0;
+      padding: 0.7rem 2.2rem;
+      border: none;
+      border-radius: 999px;
+      background: #dd7ba0;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn:hover { background: #c96690; }
+    .error {
+      background: #f8bbd0;
+      color: #880e4f;
+      text-align: center;
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      margin-bottom: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="login-card">
+    <h1 class="brand">Shelter</h1>
+    <p class="subtitle">Log in before continue</p>
+
+    <!-- Bonus H -->
+    <p class="error" th:if="${param.error}" role="alert">Invalid username or password</p>
+
+    <form th:action="@{/login}" method="post">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" required placeholder="username">
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required placeholder="••••••••••">
+
+      <button type="submit" class="btn">Log in</button>
+    </form>
+  </main>
+
+</body>
+</html>

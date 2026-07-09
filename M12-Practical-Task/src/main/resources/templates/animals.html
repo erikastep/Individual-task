@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shelter Animals</title>
+  <style>
+    body { font-family: sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; }
+    nav { background: #f1f5f9; padding: 0.6rem 1rem; border-radius: 6px; margin-bottom: 1.5rem; }
+    nav a { margin-right: 1rem; text-decoration: none; color: #2563eb; }
+    nav a:hover { text-decoration: underline; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: 0.4rem; }
+    ul { list-style: none; padding: 0; }
+    li { border: 1px solid #ddd; border-radius: 6px; padding: 1rem; margin-bottom: 1rem; display: flex; gap: 1rem; align-items: flex-start; }
+    li img { object-fit: cover; border-radius: 4px; }
+    .info { flex: 1; }
+    .info a { color: #2563eb; text-decoration: none; }
+    .info a:hover { text-decoration: underline; }
+    .badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.8rem; font-weight: bold; }
+    .badge-available { background: #dcfce7; color: #166534; }
+    .badge-adopted   { background: #e5e7eb; color: #6b7280; }
+    .flash { background: #dcfce7; border: 1px solid #16a34a; color: #166534;
+             padding: 0.6rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+
+  <div th:replace="~{fragments/nav :: nav}"></div>
+
+  <main>
+
+    <!-- Bonus C -->
+    <p th:if="${message}" th:text="${message}" role="status" class="flash">Animal added!</p>
+
+    <h1>Shelter Animals</h1>
+
+    <section aria-label="Animal list">
+      <ul>
+        <li th:each="a : ${animals}">
+          <img th:src="${a.imageUrl}"
+               th:alt="${a.name}"
+               width="300"
+               height="200"
+               style="object-fit: cover;">
+          <div class="info">
+            <!-- Bonus A -->
+            <strong><a th:href="@{/animals/{id}(id=${a.id})}" th:text="${a.name}">Name</a></strong>
+            <!-- Bonus D -->
+            <span class="badge" th:text="${a.status}"
+                  th:classappend="${a.status.name() == 'ADOPTED'} ? 'badge-adopted' : 'badge-available'">STATUS</span>
+            — <span th:text="${a.type}">TYPE</span>
+            | <span th:text="${a.breed}">Breed</span>
+            | Age: <span th:text="${a.age}">0</span>
+            <p th:text="${a.description}">Description</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+  </main>
+
+</body>
+</html>
